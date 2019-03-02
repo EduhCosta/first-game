@@ -62,7 +62,7 @@ local bg = display.newImageRect(backGroup, "./img/background.png", 800, 1400)
 bg.x = display.contentCenterX
 bg.y = display.contentCenterY
 
--- Create a nave
+-- Create a ship
 ship = display.newImageRect( mainGroup, objectSheet, 4, 98, 79 )
 ship.x = display.contentCenterX
 ship.y = display.contentHeight - 100
@@ -81,3 +81,73 @@ local function updateText()
   livesText.text = "Lives: " .. lives
   scoreText.text = "Score: " .. score
 end
+
+--[[
+  Create asteroids an define position, rotation and origin moviemnt
+]]--
+local function createAsteroid()
+  -- Create asteroid
+  local newAsteroid = display.newImageRect(mainGroup, objectSheet, 1, 102, 85)
+  -- Input on tableAsteroids
+  table.insert(asteroidsTable, newAsteroid)
+  -- Declarated here like the physics comportaments
+  physics.addBody(newAsteroid, "dynamic", { radious = 40, bounce = 0.8 })
+  -- define name for this
+  newAsteroid.name = "asteroid"
+
+  -- Declarate the position started
+  local whereFrom = math.random(3)
+
+  if (whereFrom == 1) then
+    -- From the Left
+    newAsteroid.x = -60
+    newAsteroid.y = math.random(500)
+    newAsteroid:setLinearVelocity(math.random(40,120), math.random(20,60))
+  elseif (whereFrom == 2) then
+    -- From the Top
+    newAsteroid.x = math.random( display.contentWidth )
+    newAsteroid.y = -60
+    newAsteroid:setLinearVelocity( math.random( -40,40 ), math.random( 40,120 ) )
+  elseif (whereFrom == 3) then
+    -- From the Right
+    newAsteroid.x = display.contentWidth + 60
+    newAsteroid.y = math.random( 500 )
+    newAsteroid:setLinearVelocity( math.random( -120,-40 ), math.random( 20,60 ) )
+  end
+
+  -- Add rotation
+  newAsteroid:applyTorque(math.random( -6,6 ))
+end
+
+--[[
+  Show lasers
+]]--
+local function fireLaser()
+  -- Create a laser
+  local newLaser = display.newImageRect( mainGroup, objectSheet, 5, 14, 40 )
+  physics.addBody( newLaser, "dynamic", { isSensor = true } )
+  newLaser.isBullet = true
+  newLaser.myName = "laser"
+
+  -- Start laser by ship
+  newLaser.x = ship.x
+  newLaser.y = ship.y
+  -- To bottom of ship
+  newLaser:toBack()
+
+  -- Frequency to display the lasers
+  transition.to(newLaser, { 
+    y = -40, 
+    time = 500, 
+    onComplete = function() 
+      display.remove( newLaser )
+    end 
+  })
+end
+
+-- Listiner to shot a laser
+ship:addEventListener( "tap", fireLaser )
+
+--[[
+  Moving ship
+]]--
