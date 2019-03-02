@@ -38,7 +38,6 @@ local sheetOptions = {
     }
   },
 }
-
 local objectSheet = graphics.newImageSheet("./img/gameObjects.png", sheetOptions)
 
 -- Game configuration
@@ -192,6 +191,7 @@ end
 
 -- End game
 local function endGame()
+  composer.setVariable("finalScore", score)
   composer.gotoScene("menu", { time=800, effect="crossFade" })
 end
 

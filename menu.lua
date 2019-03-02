@@ -8,11 +8,11 @@ local scene = composer.newScene()
 -- Redirect methods
 -- -----------------------------------------------------------------------------------
 local function gotoGame ()
-  composer.gotoScene("game")
+  composer.gotoScene("game", { time=800, effect="crossFade" })
 end
 
 local function gotoHighScores () 
-  composer.gotoScene("heighscores")
+  composer.gotoScene("highscores", { time=800, effect="crossFade" })
 end
 
 -- -----------------------------------------------------------------------------------
