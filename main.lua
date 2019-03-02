@@ -39,7 +39,7 @@ local sheetOptions = {
   },
 }
 
-local objectSheet = graphics.newImageSheet("gameObjects.png", sheetOptions)
+local objectSheet = graphics.newImageSheet("./img/gameObjects.png", sheetOptions)
 
 local lives = 3
 local score = 0
@@ -58,7 +58,7 @@ local mainGroup = display.newGroup()
 local uiGroup = display.newGroup()
 
 -- Create a background
-local bg = display.newImageRect(backGroup, "background.png", 800, 1400)
+local bg = display.newImageRect(backGroup, "./img/background.png", 800, 1400)
 bg.x = display.contentCenterX
 bg.y = display.contentCenterY
 
